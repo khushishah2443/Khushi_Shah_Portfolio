@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khushi's Portfolio</title>
+  <meta name="description" content="Khushi Shah - Graduate student in MIS at Texas A&M University focused on data, BI, and analytics." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="#home">Khushi Hiren Shah</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">Menu</button>
+    <nav id="navMenu">
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#research">Research</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color mode" title="Switch color mode" aria-pressed="false">
+        <span class="sun-icon" aria-hidden="true">☀</span>
+        <span class="moon-icon" aria-hidden="true">☾</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero reveal">
+      <h1>Building practical systems that turn data into decisions.</h1>
+      <p class="lead">
+        I am Khushi Shah, an M.S. Management Information Systems student at Texas A&M University.
+        I design data workflows, intelligent products, and analytics-first systems that solve real business problems.
+      </p>
+      <p class="availability">Open to Summer 2026 internship roles in Data, BI, and Analytics.</p>
+
+      <div class="cta-row">
+        <a class="icon-btn" href="https://github.com/khushishah2443" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.46c.52.1.72-.22.72-.5v-1.93c-2.93.64-3.55-1.4-3.55-1.4-.48-1.2-1.17-1.52-1.17-1.52-.96-.66.07-.65.07-.65 1.06.07 1.62 1.08 1.62 1.08.94 1.6 2.47 1.14 3.08.87.1-.68.37-1.14.67-1.4-2.34-.26-4.8-1.15-4.8-5.16 0-1.14.41-2.08 1.08-2.81-.11-.27-.47-1.35.1-2.8 0 0 .89-.28 2.9 1.08a10.17 10.17 0 0 1 5.28 0c2.01-1.36 2.89-1.08 2.89-1.08.57 1.45.21 2.53.1 2.8.67.73 1.08 1.67 1.08 2.81 0 4.02-2.47 4.9-4.82 5.15.38.32.72.96.72 1.95v2.88c0 .28.19.61.73.5A10.5 10.5 0 0 0 12 1.5Z"/>
+          </svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/shahkhushi9" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.76 8.44H3.56V20h3.2V8.44Zm.2-3.58c0-.98-.74-1.76-1.8-1.76s-1.8.78-1.8 1.76c0 .96.73 1.76 1.77 1.76h.02c1.08 0 1.81-.8 1.81-1.76ZM20.44 13.37c0-3.54-1.9-5.19-4.44-5.19-2.05 0-2.96 1.13-3.47 1.92V8.44H9.34c.04 1.09 0 11.56 0 11.56h3.2v-6.46c0-.35.03-.7.13-.95.28-.7.9-1.44 1.95-1.44 1.38 0 1.94 1.05 1.94 2.6V20h3.2v-6.63Z"/>
+          </svg>
+        </a>
+        <a class="icon-btn" href="mailto:khushi.shah@tamu.edu" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.75 5.25h16.5a1.5 1.5 0 0 1 1.5 1.5v10.5a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5V6.75a1.5 1.5 0 0 1 1.5-1.5Zm0 2.2v.23l8.25 5.05 8.25-5.05v-.23H3.75Zm16.5 9.1V9.44L12.4 14.2a.75.75 0 0 1-.8 0L3.75 9.45v7.1h16.5Z"/>
+          </svg>
+        </a>
+        <a class="btn secondary" href="./Khushi_Shah_Resume.pdf" download>Download Resume</a>
+      </div>
+    </section>
+
+    <section id="education" class="reveal">
+      <h2>Education</h2>
+      <div class="timeline">
+        <article class="item">
+          <h3>Texas A&amp;M University</h3>
+          <p class="meta">M.S. in Management Information Systems • College Station, TX • May 2027</p>
+          <p class="detail">Relevant coursework: Blockchain and AI for Business, Statistics for Data Science, Advanced Database Management Systems, Systems Analysis &amp; Design, MIS Project Management, Business Information Security.</p>
+        </article>
+        <article class="item">
+          <h3>University of Mumbai</h3>
+          <p class="meta">B.Tech in Information Technology (Honors in DevOps) • Mumbai, India • May 2025</p>
+          <p class="detail">Relevant coursework: Artificial Intelligence, Data Warehouse &amp; Mining, Big Data Analytics, Probability &amp; Statistics, Database Management Systems, MLOps, Cloud Engineering, Business Analytics.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="reveal">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <article class="item">
+          <h3>Teaching Assistant, INFO Department</h3>
+          <p class="meta">Texas A&amp;M University • Aug 2025 – Present</p>
+          <p class="detail">Supporting undergraduate Supply Chain Management Technology courses (SCMT 489 and SCMT 340): course operations, data workflows, instructional systems, project reporting, and student/faculty technical coordination.</p>
+        </article>
+        <article class="item">
+          <h3>Business Analyst Intern</h3>
+          <p class="meta">Sniro Ltd, United Kingdom • Jun 2024 – Sep 2024</p>
+          <p class="detail">Used SQL and Excel to analyze engagement data, document process workflows, and deliver actionable client reporting that improved campaign strategy and execution efficiency.</p>
+        </article>
+        <article class="item">
+          <h3>Software Developer Intern</h3>
+          <p class="meta">C-DAC India • Dec 2023 – May 2024</p>
+          <p class="detail">Built and deployed interactive virtual learning modules in ReactJS for the OLabs platform, helping improve STEM learning reach for 2M+ student users.</p>
+        </article>
+        <article class="item">
+          <h3>Business Development Intern</h3>
+          <p class="meta">ROI Institute India • Jun 2023 – Sep 2023</p>
+          <p class="detail">Supported lead generation and partnership outreach through market research, managed client communication workflows, and contributed to seminar execution and account coordination for executive learning solutions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <div class="heading-row">
+        <h2>Projects</h2>
+        <a class="text-link" href="https://github.com/khushishah2443?tab=repositories" target="_blank" rel="noreferrer">View all repositories</a>
+      </div>
+      <div class="project-grid">
+        <article class="card">
+          <h3>CMIS Engagement Platform</h3>
+          <p>Built a full-stack Streamlit platform for student-mentor matching, event workflows, and judge scoring with MongoDB, Groq AI, and N8N automation. Implemented role-based dashboards, AI-assisted pairing, resume-aware profile workflows, and real-time communication logic; awarded 2nd place in the 2025 CMIS Case Competition.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/CMIS" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>CDAC Virtual Learning Simulator</h3>
+          <p>Developed a React-based virtual mathematics learning simulator with modules for theory, animation, quizzes, references, and graph visualizations. Structured the application for multi-step concept delivery and measurable engagement outcomes before deployment to OLabs.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/CDAC" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>DataAnalyzer</h3>
+          <p>Created a Streamlit data analysis assistant that supports CSV/Excel upload, instant dataset profiling, descriptive statistics, interactive multi-column charts, and lightweight data operations like column removal. Designed for fast exploratory analysis by non-technical users.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/DataAnalyzer" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>ManageMart</h3>
+          <p>Engineered a Java Swing retail management desktop system with role-based login, customer/employee flows, product operations, and SQL-backed persistence. Built modular activity screens and object-oriented entity models for maintainable shop lifecycle management.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/ManageMart" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>Flight Delay Analytics</h3>
+          <p>Performed airline delay analytics on Kaggle U.S. flight datasets using Python, pandas, seaborn, and statistical visualizations. Built delay-level segmentation and comparative distribution views to evaluate carrier-level departure patterns and operational bottlenecks.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/Flight-Delay" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>Loan Analysis</h3>
+          <p>Built a credit-risk exploratory analysis notebook using loan application data to study repayment behavior across demographic and contract-type variables. Developed segmented visual dashboards and groupwise trend analysis to support early risk signal discovery.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/Loan-Analysis" target="_blank" rel="noreferrer">Code</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="research" class="reveal">
+      <h2>Research</h2>
+      <div class="timeline">
+        <article class="item">
+          <div class="item-head">
+            <h3>Interpretable Machine Learning in Healthcare: XAI for Diabetes Prediction</h3>
+            <a class="paper-link" href="https://www.linkedin.com/in/shahkhushi9/overlay/1752510056043/single-media-viewer/?profileId=ACoAADqqBmABUqgn_N9habnkrxeB4dKGehHCqv0" target="_blank" rel="noreferrer">Paper Link</a>
+          </div>
+          <p class="detail">Presented at ICMAAI-25; studies explainability methods that improve trust and performance in diabetes prediction pipelines.</p>
+        </article>
+        <article class="item">
+          <div class="item-head">
+            <h3>Comparison of YOLO Models for Parking Spot Object Detection</h3>
+            <a class="paper-link" href="https://kuey.net/index.php/kuey/article/view/7025" target="_blank" rel="noreferrer">Paper Link</a>
+          </div>
+          <p class="detail">Compares YOLO variants for real-time parking-space detection and smart city traffic support; published in Educational Administration: Theory and Practice.</p>
+        </article>
+        <article class="item">
+          <div class="item-head">
+            <h3>AyurLife: An Ayurvedic Way to Life</h3>
+            <a class="paper-link" href="https://kuey.net/index.php/kuey/article/view/8317" target="_blank" rel="noreferrer">Paper Link</a>
+          </div>
+          <p class="detail">Evaluates Ayurinformatics approaches for preserving and modernizing Ayurvedic knowledge systems with digital technologies.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="leadership" class="reveal">
+      <h2>Leadership</h2>
+      <div class="timeline">
+        <article class="item">
+          <h3>Marketing Coordinator, BITS TAMU</h3>
+          <p class="meta">Sep 2025 – Present</p>
+          <p class="detail">Leading promotion strategy for professional development events, tech talks, and career-focused collaborations connecting students and industry.</p>
+        </article>
+        <article class="item">
+          <h3>Chairperson, DJS Express</h3>
+          <p class="meta">Dec 2022 – Feb 2024</p>
+          <p class="detail">Led a 90-member team, launched a campus magazine, organized debate forums, and drove mental health awareness initiatives.</p>
+        </article>
+        <article class="item">
+          <h3>Publicity Head, Computer Society of India (CSI)</h3>
+          <p class="meta">Aug 2023 – Sep 2024</p>
+          <p class="detail">Directed publicity for technical events and hackathons, including large-scale student participation campaigns and industry partnership outreach.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="skill-grid">
+        <div>
+          <h3>Languages &amp; Core</h3>
+          <p>Python, SQL, R, Java, JavaScript, C/C++, HTML/CSS, ReactJS</p>
+        </div>
+        <div>
+          <h3>Data &amp; AI</h3>
+          <p>Pandas, NumPy, Scikit-learn, TensorFlow (Keras), OpenCV, YOLO, Explainable AI, Tableau, Power BI</p>
+        </div>
+        <div>
+          <h3>Platforms &amp; Tools</h3>
+          <p>AWS, Google Cloud, MySQL, MariaDB, Hadoop, Git, GitHub, JIRA, Streamlit, MongoDB</p>
+        </div>
+        <div>
+          <h3>Certifications</h3>
+          <p>AWS AI Certification, AI for Project Management (LinkedIn), N8N Course Level 1 &amp; 2</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>Contact</h2>
+      <p class="contact-copy">If you are hiring for Summer 2026 internships in data, BI, analytics, or product-facing technical roles, I would love to connect.</p>
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div class="contact-grid">
+            <a class="contact-card" href="https://github.com/khushishah2443" target="_blank" rel="noreferrer">
+              <span class="contact-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.46c.52.1.72-.22.72-.5v-1.93c-2.93.64-3.55-1.4-3.55-1.4-.48-1.2-1.17-1.52-1.17-1.52-.96-.66.07-.65.07-.65 1.06.07 1.62 1.08 1.62 1.08.94 1.6 2.47 1.14 3.08.87.1-.68.37-1.14.67-1.4-2.34-.26-4.8-1.15-4.8-5.16 0-1.14.41-2.08 1.08-2.81-.11-.27-.47-1.35.1-2.8 0 0 .89-.28 2.9 1.08a10.17 10.17 0 0 1 5.28 0c2.01-1.36 2.89-1.08 2.89-1.08.57 1.45.21 2.53.1 2.8.67.73 1.08 1.67 1.08 2.81 0 4.02-2.47 4.9-4.82 5.15.38.32.72.96.72 1.95v2.88c0 .28.19.61.73.5A10.5 10.5 0 0 0 12 1.5Z"/>
+                </svg>
+              </span>
+              <span>
+                <strong>GitHub</strong>
+              </span>
+            </a>
+            <a class="contact-card" href="https://www.linkedin.com/in/shahkhushi9" target="_blank" rel="noreferrer">
+              <span class="contact-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6.76 8.44H3.56V20h3.2V8.44Zm.2-3.58c0-.98-.74-1.76-1.8-1.76s-1.8.78-1.8 1.76c0 .96.73 1.76 1.77 1.76h.02c1.08 0 1.81-.8 1.81-1.76ZM20.44 13.37c0-3.54-1.9-5.19-4.44-5.19-2.05 0-2.96 1.13-3.47 1.92V8.44H9.34c.04 1.09 0 11.56 0 11.56h3.2v-6.46c0-.35.03-.7.13-.95.28-.7.9-1.44 1.95-1.44 1.38 0 1.94 1.05 1.94 2.6V20h3.2v-6.63Z"/>
+                </svg>
+              </span>
+              <span>
+                <strong>LinkedIn</strong>
+              </span>
+            </a>
+            <a class="contact-card" href="mailto:khushi.shah@tamu.edu">
+              <span class="contact-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3.75 5.25h16.5a1.5 1.5 0 0 1 1.5 1.5v10.5a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5V6.75a1.5 1.5 0 0 1 1.5-1.5Zm0 2.2v.23l8.25 5.05 8.25-5.05v-.23H3.75Zm16.5 9.1V9.44L12.4 14.2a.75.75 0 0 1-.8 0L3.75 9.45v7.1h16.5Z"/>
+                </svg>
+              </span>
+              <span>
+                <strong>Mail</strong>
+              </span>
+            </a>
+            <a class="contact-card" href="tel:+19795740563">
+              <span class="contact-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6.62 10.79a15.47 15.47 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24 11.2 11.2 0 0 0 3.52.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3.99a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1 11.2 11.2 0 0 0 .56 3.52 1 1 0 0 1-.24 1l-2.2 2.28Z"/>
+                </svg>
+              </span>
+              <span>
+                <strong>+1 (979) 574-0563</strong>
+              </span>
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" action="https://formsubmit.co/khushi.shah@tamu.edu" method="POST">
+          <input type="hidden" name="_subject" value="Portfolio Contact - Khushi Shah" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Your email" required />
+          <input type="text" name="company" placeholder="Company / University" />
+          <textarea name="message" placeholder="Your message" rows="5" required></textarea>
+          <button type="submit" class="btn primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Khushi Shah</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
