@@ -28,6 +28,7 @@
       <a href="#research">Research</a>
       <a href="#leadership">Leadership</a>
       <a href="#skills">Skills</a>
+      <a href="#awards">Awards</a>
       <a href="#contact">Contact</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color mode" title="Switch color mode" aria-pressed="false">
         <span class="sun-icon" aria-hidden="true">☀</span>
@@ -114,29 +115,29 @@
       </div>
       <div class="project-grid">
         <article class="card">
-          <h3>CMIS Engagement Platform</h3>
-          <p>Built a full-stack Streamlit platform for student-mentor matching, event workflows, and judge scoring with MongoDB, Groq AI, and N8N automation. Implemented role-based dashboards, AI-assisted pairing, resume-aware profile workflows, and real-time communication logic; awarded 2nd place in the 2025 CMIS Case Competition.</p>
+          <h3>AetherMart</h3>
+          <p>Data-driven e-commerce platform with automated ETL pipelines, horizontally partitioned SQL architecture, and vector-based semantic search. Built to improve product discovery, analytics readiness, and scalability for future recommendation workflows.</p>
+          <a class="paper-link" href="https://github.com/khushishah2443/AetherMart" target="_blank" rel="noreferrer">Code</a>
+        </article>
+        <article class="card">
+          <h3>AggieLink</h3>
+          <p>End-to-end CMIS engagement platform with AI-powered student-mentor matching, event workflows, scoring pipelines, and automated communications. Built with Streamlit, MongoDB, Groq API, and n8n webhook automation.</p>
           <a class="paper-link" href="https://github.com/khushishah2443/CMIS" target="_blank" rel="noreferrer">Code</a>
         </article>
         <article class="card">
           <h3>CDAC Virtual Learning Simulator</h3>
-          <p>Developed a React-based virtual mathematics learning simulator with modules for theory, animation, quizzes, references, and graph visualizations. Structured the application for multi-step concept delivery and measurable engagement outcomes before deployment to OLabs.</p>
+          <p>Developed a React-based virtual mathematics simulator with guided theory modules, animation-driven concept explanation, quiz checkpoints, and graph interaction for improved conceptual retention at scale.</p>
           <a class="paper-link" href="https://github.com/khushishah2443/CDAC" target="_blank" rel="noreferrer">Code</a>
         </article>
         <article class="card">
           <h3>DataAnalyzer</h3>
-          <p>Created a Streamlit data analysis assistant that supports CSV/Excel upload, instant dataset profiling, descriptive statistics, interactive multi-column charts, and lightweight data operations like column removal. Designed for fast exploratory analysis by non-technical users.</p>
+          <p>Built a Streamlit analysis assistant for rapid CSV/Excel exploration with dataset profiling, descriptive statistics, charting, and quick transformation utilities for non-technical and analyst users.</p>
           <a class="paper-link" href="https://github.com/khushishah2443/DataAnalyzer" target="_blank" rel="noreferrer">Code</a>
         </article>
         <article class="card">
           <h3>ManageMart</h3>
-          <p>Engineered a Java Swing retail management desktop system with role-based login, customer/employee flows, product operations, and SQL-backed persistence. Built modular activity screens and object-oriented entity models for maintainable shop lifecycle management.</p>
+          <p>Engineered a Java Swing retail management application with role-based authentication, customer and employee workflows, product lifecycle operations, and SQL-backed persistence using modular OOP architecture.</p>
           <a class="paper-link" href="https://github.com/khushishah2443/ManageMart" target="_blank" rel="noreferrer">Code</a>
-        </article>
-        <article class="card">
-          <h3>Flight Delay Analytics</h3>
-          <p>Performed airline delay analytics on Kaggle U.S. flight datasets using Python, pandas, seaborn, and statistical visualizations. Built delay-level segmentation and comparative distribution views to evaluate carrier-level departure patterns and operational bottlenecks.</p>
-          <a class="paper-link" href="https://github.com/khushishah2443/Flight-Delay" target="_blank" rel="noreferrer">Code</a>
         </article>
         <article class="card">
           <h3>Loan Analysis</h3>
@@ -216,6 +217,24 @@
       </div>
     </section>
 
+    <section id="awards" class="reveal">
+      <h2>Awards</h2>
+      <div class="timeline">
+        <article class="item">
+          <h3>2nd Prize - CMIS Graduate Case Competition 2025</h3>
+          <p class="meta">Texas A&amp;M University • Dec 2025</p>
+          <p class="detail">Won 2nd place overall as part of a four-member team for building AggieLink, an AI-enabled engagement platform for CMIS programs and competitions with mentor matching, scoring workflows, and automated communication.</p>
+          <p class="detail"><strong>Stack:</strong> Python, Streamlit, MongoDB Atlas, Groq API, n8n automation, pdfplumber.</p>
+        </article>
+        <article class="item">
+          <h3>3rd Prize - Google Labs x Aggies-in-Tech Makeathon 2025</h3>
+          <p class="meta">Texas A&amp;M University • Nov 2025</p>
+          <p class="detail">Won 3rd place for an accessibility-first study assistant that converts PDF, PPT, and audio/text into inclusive learning formats.</p>
+          <p class="detail"><strong>Highlights:</strong> OpenDyslexic support, text-to-speech, Focus Mode, and AI-generated alt text with non-color visual labels.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="contact" class="reveal">
       <h2>Contact</h2>
       <p class="contact-copy">If you are hiring for Summer 2026 internships in data, BI, analytics, or product-facing technical roles, I would love to connect.</p>
@@ -276,6 +295,31 @@
       </div>
     </section>
   </main>
+
+  <button class="chat-launch" id="chatLaunch" type="button" aria-label="Open resume assistant">✦</button>
+  <div class="chat-wave" id="chatWave">Hi, I am Mochi!</div>
+  <section class="chatbot-panel" id="chatPanel" aria-label="Resume assistant panel">
+    <div class="chat-head">
+      <div>
+        <h3>Mochi</h3>
+        <p>Resume Summary Copilot</p>
+      </div>
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close assistant">×</button>
+    </div>
+    <div class="chat-chip-row">
+      <button class="chat-chip" data-topic="experience" type="button">Experience</button>
+      <button class="chat-chip" data-topic="projects" type="button">Projects</button>
+      <button class="chat-chip" data-topic="leadership" type="button">Leadership</button>
+      <button class="chat-chip" data-topic="research" type="button">Research</button>
+      <button class="chat-chip" data-topic="skills" type="button">Skills</button>
+      <button class="chat-chip" data-topic="awards" type="button">Awards</button>
+    </div>
+    <div class="chat-stream" id="chatStream"></div>
+    <div class="chat-compose">
+      <input id="chatInput" type="text" placeholder="Ask about projects, awards, or experience..." />
+      <button id="chatAsk" type="button">Ask</button>
+    </div>
+  </section>
 
   <footer>
     <p>© <span id="year"></span> Khushi Shah</p>
