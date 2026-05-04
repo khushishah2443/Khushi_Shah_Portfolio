@@ -552,20 +552,24 @@ h3 {
 .org-logo {
   width: 50px;
   height: 50px;
+  aspect-ratio: 1 / 1;
   border-radius: 0.8rem;
   background: var(--logo-chip-bg);
   border: 1px solid var(--logo-chip-border);
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   padding: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
 .org-logo img {
-  width: 92%;
-  height: 92%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   display: block;
 }
@@ -1390,7 +1394,7 @@ html.js .reveal.visible {
   .section-head { flex-wrap: wrap; }
 
   .item-row { gap: 0.75rem; }
-  .org-logo { width: 44px; height: 44px; padding: 5px; }
+  .org-logo { width: 44px; height: 44px; padding: 5px; aspect-ratio: 1 / 1; }
 
   .chat-launch {
     right: 0.75rem;
