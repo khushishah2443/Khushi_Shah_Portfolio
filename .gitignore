@@ -1,0 +1,15 @@
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+node_modules/
+
+# Stale assets carried over from another project
+assets/Yash_Doshi_Resume.pdf
+assets/tesla.svg
+assets/f1car-loader.svg
+assets/logos/tesla.svg
+assets/logos/tesla.png
+assets/logos/tesla-fav.png
+assets/logos/tesla_t.png
