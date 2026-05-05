@@ -206,7 +206,7 @@ function resolveReply(raw) {
   if (q.includes("research") || q.includes("paper") || q.includes("publication")) return chatReplies.research;
   if (q.includes("leader") || q.includes("club") || q.includes("organization")) return chatReplies.leadership;
   if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("tool")) return chatReplies.skills;
-  if (q.includes("jmp") || q.includes("intern") || q.includes("ta") || q.includes("teach") || q.includes("experience") || q.includes("work") || q.includes("job")) return chatReplies.experience;
+  if (q.includes("jmp") || q.includes("intern") || /\bta\b/.test(q) || q.includes("teach") || q.includes("experience") || q.includes("work") || q.includes("job")) return chatReplies.experience;
   if (q.includes("project") || q.includes("aethermart") || q.includes("aggielink") || q.includes("agent")) return chatReplies.projects;
   if (q.includes("avail") || q.includes("hiring") || q.includes("co-op") || q.includes("coop") || q.includes("full-time") || q.includes("opportunity")) {
     return "Khushi is open to Fall 2026 and Spring 2027 co-op opportunities, and full-time roles starting Summer 2027 in data, BI, and analytics.";
