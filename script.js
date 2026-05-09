@@ -148,93 +148,134 @@ document.addEventListener('keydown', (event) => {
 });
 
 /* ---------- Mochi chatbot (Groq AI) ---------- */
-const chatInput = document.getElementById('chatInput');
-const chatStream = document.getElementById('chatStream');
-const chatLaunch = document.getElementById('chatLaunch');
-const chatPanel = document.getElementById('chatPanel');
-const chatClose = document.getElementById('chatClose');
-const chatWave = document.getElementById('chatWave');
-const askBtn = document.getElementById('chatAsk');
+const chatInput   = document.getElementById('chatInput');
+const chatStream  = document.getElementById('chatStream');
+const chatLaunch  = document.getElementById('chatLaunch');
+const chatPanel   = document.getElementById('chatPanel');
+const chatClose   = document.getElementById('chatClose');
+const chatWave    = document.getElementById('chatWave');
+const askBtn      = document.getElementById('chatAsk');
 
 /* ---- Groq config ---- */
 // Client-side key for static portfolio — free-tier Groq, rotate if abused.
-const GROQ_KEY = ['gsk_dYXHPQmZK9', 'RMSzM4pocnWGdy', 'b3FYwMIw1MHjTJ', 'XLMKrk12wez5wV'].join('');
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_KEY   = ['gsk_dYXHPQmZK9', 'RMSzM4pocnWGdy', 'b3FYwMIw1MHjTJ', 'XLMKrk12wez5wV'].join('');
+const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.1-8b-instant';
 const MAX_HISTORY = 8; // last 4 back-and-forth turns
 
-const MOCHI_SYSTEM = `You are Mochi, a concise and friendly AI assistant on Khushi Hiren Shah's portfolio website. Your job is to help recruiters, collaborators, and curious visitors quickly learn about Khushi. Here is everything you need to know:
+/* ---- System prompt ---- */
+const MOCHI_SYSTEM = [
+  'You are Mochi, a concise and friendly AI assistant on Khushi Hiren Shah\'s portfolio website.',
+  'Help recruiters, collaborators, and curious visitors quickly learn about Khushi.',
+  '',
+  'EDUCATION',
+  'M.S. Management Information Systems, Texas A&M University, College Station TX (Expected May 2027).',
+  'Coursework: Blockchain & AI for Business, Statistics for Data Science, Advanced Database Management Systems,',
+  'Systems Analysis & Design, MIS Project Management, Business Information Security.',
+  'B.Tech Information Technology (Honors: DevOps), D.J. Sanghvi College of Engineering / University of Mumbai (May 2025).',
+  'Coursework: AI, Data Warehouse & Mining, Big Data Analytics, Probability & Statistics, DBMS, MLOps, Cloud Engineering, Business Analytics.',
+  '',
+  'EXPERIENCE',
+  'Incoming: Development Testing Intern at JMP Statistical Discovery (SAS), May-Aug 2026.',
+  'Automated testing, validation tooling, quality engineering workflows for JMP statistical analytics software.',
+  'Teaching Assistant (SCMT 489 / SCMT 340) at Texas A&M University, Aug 2025-Present.',
+  'Supporting Supply Chain Management Technology undergraduate courses.',
+  'Business Analyst Intern at Sniro Ltd (UK), Jun-Sep 2024.',
+  'SQL and Excel engagement analytics, process documentation, client reporting.',
+  'Software Developer Intern at C-DAC India, Dec 2023-May 2024.',
+  'Built ReactJS virtual learning modules for OLabs platform (2M+ students).',
+  'Business Development Intern at ROI Institute India, Jun-Sep 2023.',
+  'Lead generation, market research, client communications for executive learning solutions.',
+  '',
+  'PROJECTS',
+  'AetherMart (SQL, ETL, Vector Search): E-commerce with ETL pipelines, partitioned SQL, vector-based semantic search. github.com/khushishah2443/AetherMart',
+  'AI-Agent-Lab (LangGraph, CrewAI, RAG): Agentic framework for fundraising intelligence, job outreach, financial analysis. github.com/khushishah2443/AI_Agent_Lab',
+  'AggieLink (Streamlit, MongoDB, Groq, n8n): CMIS platform with AI mentor matching. Won 2nd place at CMIS Case Competition 2025. github.com/khushishah2443/CMIS',
+  'CDAC Virtual Learning Simulator (React, EdTech): Math simulator with animations, quizzes, graph interaction. github.com/khushishah2443/CDAC',
+  'DataAnalyzer (Streamlit, Pandas): Data profiling tool for CSV/Excel. github.com/khushishah2443/DataAnalyzer',
+  'ManageMart (Java, Swing, SQL): Role-based retail management app. github.com/khushishah2443/ManageMart',
+  '',
+  'RESEARCH',
+  '"Interpretable ML in Healthcare: XAI for Diabetes Prediction" - ICMAAI-25 Conference. Uses SHAP and LIME.',
+  '"Comparison of YOLO Models for Parking Spot Detection" - Educational Administration: Theory and Practice journal.',
+  '"AyurLife: An Ayurvedic Way to Life" - Educational Administration: Theory and Practice journal.',
+  '',
+  'LEADERSHIP',
+  'Marketing Coordinator, BITS TAMU (Sep 2025-Present). Promotes tech talks and industry collaborations.',
+  'Publicity Head, Computer Society of India - DJSCE Chapter (Aug 2023-Sep 2024). Hackathons and events.',
+  'Chairperson, DJS Express (Dec 2022-Feb 2024). Led 90-member team, launched campus magazine, mental health initiatives.',
+  '',
+  'SKILLS',
+  'Languages: Python, SQL, R, Java, JavaScript, C/C++, HTML/CSS, ReactJS',
+  'Data & AI: Pandas, NumPy, Scikit-learn, TensorFlow/Keras, OpenCV, YOLO, Explainable AI, Tableau, Power BI',
+  'Platforms: AWS, Google Cloud, MySQL, MariaDB, Hadoop, Git/GitHub, JIRA, Streamlit, MongoDB',
+  'Certifications: AWS AI Certification, AI for Project Management (LinkedIn), n8n Course Level 1 & 2',
+  '',
+  'AWARDS',
+  '2nd Prize - CMIS Graduate Case Competition 2025 (AggieLink project)',
+  '3rd Prize - Google Labs x Aggies-in-Tech Makeathon 2025 (accessibility study assistant)',
+  '',
+  'AVAILABILITY: Open to Fall 2026 and Spring 2027 co-ops. Full-time from Summer 2027 in data, BI, or analytics.',
+  '',
+  'CONTACT: khushi.shah@tamu.edu | linkedin.com/in/shahkhushi9 | github.com/khushishah2443 | +1 (979) 574-0563',
+  '',
+  'STRICT FORMAT RULES - follow these exactly or you will break the display:',
+  '- Plain text only. Never use ** for bold, * for italic, # for headers, or 1. 2. 3. numbered lists.',
+  '- For lists of items, use plain dashes like "- item" on separate lines, or just line breaks.',
+  '- Keep replies short: 2-4 sentences for simple questions, or a short list (max 6 items) for factual questions.',
+  '- Be warm and professional. Refer to Khushi in third person.',
+  '- If asked something outside Khushi\'s background, politely redirect.',
+  '- Never invent facts not listed above.',
+].join('\n');
 
-EDUCATION
-• M.S. Management Information Systems, Texas A&M University, College Station TX (Expected May 2027). Coursework: Blockchain & AI for Business, Statistics for Data Science, Advanced Database Management Systems, Systems Analysis & Design, MIS Project Management, Business Information Security.
-• B.Tech Information Technology (Honors: DevOps), D.J. Sanghvi College of Engineering / University of Mumbai (May 2025). Coursework: AI, Data Warehouse & Mining, Big Data Analytics, Probability & Statistics, DBMS, MLOps, Cloud Engineering, Business Analytics.
-
-EXPERIENCE
-• Incoming: Development Testing Intern – JMP Statistical Discovery (SAS), May–Aug 2026. Automated testing, validation tooling, quality engineering workflows for JMP's statistical analytics software.
-• Teaching Assistant (SCMT 489 / SCMT 340) – Texas A&M University, Aug 2025–Present. Supporting Supply Chain Management Technology undergraduate courses.
-• Business Analyst Intern – Sniro Ltd (UK), Jun–Sep 2024. SQL and Excel engagement analytics, process documentation, client reporting.
-• Software Developer Intern – C-DAC India, Dec 2023–May 2024. Built ReactJS virtual learning modules for the OLabs platform (2M+ students).
-• Business Development Intern – ROI Institute India, Jun–Sep 2023. Lead generation, market research, client communications for executive learning solutions.
-
-PROJECTS
-• AetherMart (SQL, ETL, Vector Search) – Data-driven e-commerce with automated ETL pipelines, partitioned SQL architecture, and vector-based semantic search. github.com/khushishah2443/AetherMart
-• AI-Agent-Lab (LangGraph, CrewAI, RAG) – Modular agentic framework for fundraising intelligence, job outreach, and financial pattern analysis. github.com/khushishah2443/AI_Agent_Lab
-• AggieLink (Streamlit, MongoDB, Groq, n8n) – CMIS engagement platform with AI-powered student-mentor matching and automated communications. Won 2nd place at CMIS Graduate Case Competition 2025. github.com/khushishah2443/CMIS
-• CDAC Virtual Learning Simulator (React, EdTech) – Math simulator with animation-driven concept explanation, quiz checkpoints, and graph interaction. github.com/khushishah2443/CDAC
-• DataAnalyzer (Streamlit, Pandas) – Rapid data profiling tool for CSV/Excel with descriptive stats and charts. github.com/khushishah2443/DataAnalyzer
-• ManageMart (Java, Swing, SQL) – Role-based retail management app with modular OOP architecture. github.com/khushishah2443/ManageMart
-
-RESEARCH & PUBLICATIONS
-• "Interpretable Machine Learning in Healthcare: XAI for Diabetes Prediction" – ICMAAI-25 Conference. Uses SHAP and LIME for diabetes prediction explainability.
-• "Comparison of YOLO Models for Parking Spot Object Detection" – Educational Administration: Theory and Practice journal.
-• "AyurLife: An Ayurvedic Way to Life" – Educational Administration: Theory and Practice journal.
-
-LEADERSHIP
-• Marketing Coordinator, BITS TAMU (Sep 2025–Present) – Promoting tech talks, professional events, and industry collaborations.
-• Publicity Head, Computer Society of India – DJSCE Chapter (Aug 2023–Sep 2024) – Hackathons, events, industry outreach.
-• Chairperson, DJS Express (Dec 2022–Feb 2024) – Led 90-member team, launched campus magazine, organized debate forums and mental health awareness initiatives.
-
-SKILLS
-• Languages: Python, SQL, R, Java, JavaScript, C/C++, HTML/CSS, ReactJS
-• Data & AI: Pandas, NumPy, Scikit-learn, TensorFlow/Keras, OpenCV, YOLO, Explainable AI, Tableau, Power BI
-• Platforms: AWS, Google Cloud, MySQL, MariaDB, Hadoop, Git/GitHub, JIRA, Streamlit, MongoDB
-• Certifications: AWS AI Certification, AI for Project Management (LinkedIn), n8n Course Level 1 & 2
-
-AWARDS
-• 2nd Prize – CMIS Graduate Case Competition 2025 (AggieLink project)
-• 3rd Prize – Google Labs × Aggies-in-Tech Makeathon 2025 (accessibility-first study assistant)
-
-AVAILABILITY
-Open to Fall 2026 and Spring 2027 co-op opportunities. Full-time roles starting Summer 2027 in data, BI, and analytics.
-
-CONTACT
-Email: khushi.shah@tamu.edu | LinkedIn: linkedin.com/in/shahkhushi9 | GitHub: github.com/khushishah2443 | Phone: +1 (979) 574-0563
-
-RESPONSE GUIDELINES
-• Keep replies to 2–4 sentences, or a short bullet list for 3+ items.
-• Be warm, friendly, and professional. Refer to her as "Khushi" in third person.
-• If asked something not related to Khushi's background, politely say you can only answer questions about Khushi.
-• Never invent or assume facts not listed above.`;
-
-/* Conversation history for multi-turn memory */
+/* ---- Conversation history ---- */
 const chatHistory = [];
 
-/* Natural-language prompts for quick chips */
+/* ---- Quick chip prompts ---- */
 const quickTopicPrompts = {
   experience: "Summarize Khushi's work experience and internships.",
   projects:   "What are the main projects Khushi has built?",
   leadership: "What leadership roles has Khushi held?",
   research:   "What research and publications does Khushi have?",
-  skills:     "What are Khushi's technical skills and tools?",
-  awards:     "What awards and competitions has Khushi won?",
+  skills:     "What are Khushi's technical skills?",
+  awards:     "What awards has Khushi won?",
   contact:    "How can I get in touch with Khushi?"
 };
 
-/* ---- Helpers ---- */
-function appendMessage(role, text, className = '') {
+/* ---- rAF-based typing animation ---- */
+// Tokens from the stream go into a queue; rAF drains it at ~240 chars/sec
+// so text always appears smoothly regardless of how tokens arrive in bulk.
+let _aq  = '';   // animation queue (pending chars)
+let _ab  = null; // active bubble element
+let _raf = 0;    // rAF handle
+const CSPF = 4;  // chars shown per frame at 60fps = ~240 chars/sec
+
+function _drain() {
+  if (!_ab || !_aq) { _raf = 0; return; }
+  const n = Math.min(CSPF, _aq.length);
+  _ab.textContent += _aq.slice(0, n);
+  _aq = _aq.slice(n);
+  if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+  _raf = requestAnimationFrame(_drain);
+}
+
+function animQueue(text, bubble) {
+  _ab  = bubble;
+  _aq += text;
+  if (!_raf) _raf = requestAnimationFrame(_drain);
+}
+
+function animReset() {
+  if (_raf) { cancelAnimationFrame(_raf); _raf = 0; }
+  _aq = '';
+  _ab = null;
+}
+
+/* ---- DOM helpers ---- */
+function appendMessage(role, text, className) {
   if (!chatStream) return null;
   const bubble = document.createElement('div');
-  bubble.className = `chat-msg ${role}${className ? ` ${className}` : ''}`;
+  bubble.className = 'chat-msg ' + role + (className ? ' ' + className : '');
   bubble.textContent = text;
   chatStream.appendChild(bubble);
   chatStream.scrollTop = chatStream.scrollHeight;
@@ -244,8 +285,8 @@ function appendMessage(role, text, className = '') {
 function setComposeBusy(busy) {
   if (chatInput) chatInput.disabled = busy;
   if (askBtn) {
-    askBtn.disabled = busy;
-    askBtn.textContent = busy ? '…' : 'Ask';
+    askBtn.disabled  = busy;
+    askBtn.textContent = busy ? '...' : 'Ask';
   }
 }
 
@@ -253,42 +294,43 @@ function setComposeBusy(busy) {
 async function streamBotMessage(userText) {
   if (!chatStream) return;
   setComposeBusy(true);
+  animReset();
 
-  const typing = appendMessage('bot', 'Mochi is thinking…', 'typing-dot');
+  const typing = appendMessage('bot', 'Mochi is thinking...', 'typing-dot');
 
   const messages = [
-    { role: 'system', content: MOCHI_SYSTEM },
+    { role: 'system',    content: MOCHI_SYSTEM },
     ...chatHistory.slice(-MAX_HISTORY),
-    { role: 'user', content: userText }
+    { role: 'user',      content: userText }
   ];
 
   let botBubble = null;
-  let fullText = '';
+  let fullText  = '';
 
   try {
     const res = await fetch(GROQ_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${GROQ_KEY}`,
-        'Content-Type': 'application/json'
+        'Authorization': 'Bearer ' + GROQ_KEY,
+        'Content-Type':  'application/json'
       },
       body: JSON.stringify({
-        model: GROQ_MODEL,
+        model:       GROQ_MODEL,
         messages,
-        stream: true,
-        max_tokens: 400,
-        temperature: 0.65
+        stream:      true,
+        max_tokens:  400,
+        temperature: 0.6
       })
     });
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      throw new Error(body.error?.message || `HTTP ${res.status}`);
+      throw new Error((body.error && body.error.message) || ('HTTP ' + res.status));
     }
 
-    const reader = res.body.getReader();
+    const reader  = res.body.getReader();
     const decoder = new TextDecoder();
-    let buf = '';
+    let   buf     = '';
 
     while (true) {
       const { done, value } = await reader.read();
@@ -299,62 +341,62 @@ async function streamBotMessage(userText) {
       buf = lines.pop() || '';
 
       for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed.startsWith('data: ')) continue;
-        const data = trimmed.slice(6);
-        if (data === '[DONE]') break;
+        const t = line.trim();
+        if (!t.startsWith('data: ')) continue;
+        const d = t.slice(6);
+        if (d === '[DONE]') break;
         try {
-          const token = JSON.parse(data).choices?.[0]?.delta?.content;
-          if (token) {
+          const tok = JSON.parse(d).choices[0].delta.content;
+          if (tok) {
+            fullText += tok;
             if (!botBubble) {
-              typing?.remove();
+              typing && typing.remove();
               botBubble = appendMessage('bot', '');
             }
-            fullText += token;
-            botBubble.textContent = fullText;
-            chatStream.scrollTop = chatStream.scrollHeight;
+            animQueue(tok, botBubble); // smooth rAF animation
           }
-        } catch { /* skip malformed SSE chunk */ }
+        } catch (_) { /* skip malformed SSE chunk */ }
       }
     }
 
-    /* Save turn to multi-turn history */
+    // Save completed turn to history immediately (animation may still be draining)
     if (fullText) {
-      chatHistory.push({ role: 'user',      content: userText  });
-      chatHistory.push({ role: 'assistant', content: fullText  });
+      chatHistory.push({ role: 'user',      content: userText });
+      chatHistory.push({ role: 'assistant', content: fullText });
     }
     if (!botBubble && fullText) {
-      typing?.remove();
+      typing && typing.remove();
       appendMessage('bot', fullText);
     }
 
   } catch (err) {
-    typing?.remove();
+    animReset();
+    typing && typing.remove();
     appendMessage('bot', "Hmm, I couldn't connect right now. Check your connection and try again!");
     console.error('[Mochi]', err);
   } finally {
     setComposeBusy(false);
-    if (chatInput && !chatInput.disabled) chatInput.focus();
+    if (chatInput) chatInput.focus();
   }
 }
 
 /* ---- Init greeting ---- */
 if (chatStream) {
-  appendMessage('bot', "Hi, I'm Mochi 👋 I'm an AI assistant powered by Groq — I know everything about Khushi. Ask me anything, or pick a topic below!");
+  appendMessage('bot', "Hi, I'm Mochi! I'm an AI assistant powered by Groq and I know everything about Khushi. Ask me anything or pick a topic below.");
 }
 
 /* ---- Quick chip handler ---- */
-window.chatQuick = (topic) => {
-  const prompt = quickTopicPrompts[topic];
+window.chatQuick = function(topic) {
+  var prompt = quickTopicPrompts[topic];
   if (!prompt) return;
   appendMessage('user', topic.charAt(0).toUpperCase() + topic.slice(1));
   streamBotMessage(prompt);
 };
 
 /* ---- Send message ---- */
-window.chatAsk = () => {
+window.chatAsk = function() {
   if (!chatInput) return;
-  const question = chatInput.value.trim();
+  var question = chatInput.value.trim();
   if (!question) return;
   appendMessage('user', question);
   chatInput.value = '';
@@ -362,28 +404,28 @@ window.chatAsk = () => {
 };
 
 /* Chip click listeners */
-document.querySelectorAll('.chat-chip[data-topic]').forEach((chip) => {
-  chip.addEventListener('click', (e) => {
+document.querySelectorAll('.chat-chip[data-topic]').forEach(function(chip) {
+  chip.addEventListener('click', function(e) {
     e.preventDefault();
-    const topic = chip.getAttribute('data-topic');
+    var topic = chip.getAttribute('data-topic');
     if (topic) window.chatQuick(topic);
   });
 });
 
 /* Ask button */
-if (askBtn) askBtn.addEventListener('click', () => window.chatAsk());
+if (askBtn) askBtn.addEventListener('click', function() { window.chatAsk(); });
 
 /* Enter key to send */
 if (chatInput) {
-  chatInput.addEventListener('keydown', (e) => {
+  chatInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); window.chatAsk(); }
   });
 }
 
 /* Wave badge auto-show/hide */
 if (chatWave) {
-  window.setTimeout(() => chatWave.classList.add('show'), 600);
-  window.setTimeout(() => chatWave.classList.remove('show'), 5200);
+  window.setTimeout(function() { chatWave.classList.add('show'); }, 600);
+  window.setTimeout(function() { chatWave.classList.remove('show'); }, 5200);
 }
 
 /* ---- Panel open / close ---- */
@@ -404,8 +446,8 @@ function closeChatPanel() {
 }
 
 if (chatLaunch) chatLaunch.addEventListener('click', openChatPanel);
-if (chatClose) chatClose.addEventListener('click', closeChatPanel);
+if (chatClose)  chatClose.addEventListener('click',  closeChatPanel);
 
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && chatPanel && chatPanel.classList.contains('open')) closeChatPanel();
 });
