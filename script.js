@@ -232,6 +232,31 @@ const MOCHI_SYSTEM = [
 /* ---- Conversation history ---- */
 const chatHistory = [];
 
+/* ---- One-shot demo: shows the model exactly the style to follow ---- */
+// Prepended to every request so the model sees a worked example before answering.
+const DEMO_MESSAGES = [
+  {
+    role: 'user',
+    content: 'Why should I hire Khushi?'
+  },
+  {
+    role: 'assistant',
+    content: "Khushi brings a rare combination of technical depth and real-world impact. She has built production React apps used by over 2 million students, shipped AI agent systems, and placed in two competitive hackathons at Texas A&M. She is joining JMP Statistical Discovery this summer and is open to co-op and full-time roles in data and analytics starting 2026."
+  }
+];
+
+/* ---- Strip any markdown that slips through the model's output ---- */
+function stripMarkdown(text) {
+  return text
+    .replace(/\*\*([\s\S]*?)\*\*/g, '$1')  // **bold** -> bold
+    .replace(/\*([\s\S]*?)\*/g, '$1')       // *italic* -> italic
+    .replace(/^#{1,6}\s*/gm, '')            // ## Header -> Header
+    .replace(/^[-*]\s+/gm, '')              // - bullet -> plain line
+    .replace(/^\d+\.\s+/gm, '')            // 1. item -> item
+    .replace(/\n{3,}/g, '\n\n')             // collapse excess blank lines
+    .trim();
+}
+
 /* ---- Quick chip prompts ---- */
 const quickTopicPrompts = {
   experience: "Summarize Khushi's work experience and internships.",
@@ -249,7 +274,7 @@ const quickTopicPrompts = {
 let _aq  = '';   // animation queue (pending chars)
 let _ab  = null; // active bubble element
 let _raf = 0;    // rAF handle
-const CSPF = 4;  // chars shown per frame at 60fps = ~240 chars/sec
+const CSPF = 10; // chars shown per frame at 60fps = ~600 chars/sec
 
 function _drain() {
   if (!_ab || !_aq) { _raf = 0; return; }
@@ -301,6 +326,7 @@ async function streamBotMessage(userText) {
 
   const messages = [
     { role: 'system',    content: MOCHI_SYSTEM },
+    ...DEMO_MESSAGES,
     ...chatHistory.slice(-MAX_HISTORY),
     { role: 'user',      content: userText }
   ];
@@ -360,14 +386,19 @@ async function streamBotMessage(userText) {
       }
     }
 
-    // Save completed turn to history immediately (animation may still be draining)
-    if (fullText) {
-      chatHistory.push({ role: 'user',      content: userText });
-      chatHistory.push({ role: 'assistant', content: fullText });
-    }
-    if (!botBubble && fullText) {
+    // Stream done: strip any markdown symbols and snap to the final clean text.
+    // This also cancels the rAF queue so the bubble doesn't keep slowly draining.
+    const cleanText = stripMarkdown(fullText);
+    animReset();
+    if (botBubble) {
+      botBubble.textContent = cleanText;
+    } else if (cleanText) {
       typing && typing.remove();
-      appendMessage('bot', fullText);
+      appendMessage('bot', cleanText);
+    }
+    if (cleanText) {
+      chatHistory.push({ role: 'user',      content: userText  });
+      chatHistory.push({ role: 'assistant', content: cleanText });
     }
 
   } catch (err) {
