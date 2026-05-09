@@ -193,8 +193,8 @@ const MOCHI_SYSTEM = [
   'B.Tech Information Technology with Honors in DevOps, D.J. Sanghvi College of Engineering / University of Mumbai (May 2025). Coursework: AI, Data Warehouse & Mining, Big Data Analytics, DBMS, MLOps, Cloud Engineering, Business Analytics.',
   '',
   'Experience:',
-  'Incoming Development Testing Intern at JMP Statistical Discovery (SAS), May-Aug 2026. Automated testing, validation tooling, quality engineering for JMP statistical analytics software.',
-  'Teaching Assistant (SCMT 489 / SCMT 340) at Texas A&M University, Aug 2025-Present. Supporting Supply Chain Management Technology undergraduate courses.',
+  'Development Testing Intern at JMP Statistical Discovery (SAS), May 2026-Present (Cary, NC). Developing automated test suites in Python and JSL, building dashboards to surface test coverage and quality metrics, publishing results to JMP Live.',
+  'Teaching Assistant (SCMT 489 / SCMT 340) at Texas A&M University, Aug 2025-May 2026. Supported Supply Chain Management Technology undergraduate courses.',
   'Business Analyst Intern at Sniro Ltd (UK), Jun-Sep 2024. SQL and Excel engagement analytics, process documentation, client reporting.',
   'Software Developer Intern at C-DAC India, Dec 2023-May 2024. Built ReactJS virtual learning modules for OLabs (2M+ students).',
   'Business Development Intern at ROI Institute India, Jun-Sep 2023. Lead generation, market research, client communications.',
@@ -241,7 +241,7 @@ const DEMO_MESSAGES = [
   },
   {
     role: 'assistant',
-    content: "Khushi brings a rare combination of technical depth and real-world impact. She has built production React apps used by over 2 million students, shipped AI agent systems, and placed in two competitive hackathons at Texas A&M. She is joining JMP Statistical Discovery this summer and is open to co-op and full-time roles in data and analytics starting 2026."
+    content: "Khushi brings a rare combination of technical depth and real-world impact. She has built production React apps used by over 2 million students, shipped AI agent systems, and placed in two competitive hackathons at Texas A&M. She is currently interning at JMP Statistical Discovery and is open to co-op and full-time roles in data and analytics."
   }
 ];
 
