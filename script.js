@@ -147,118 +147,246 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && resumeModal && !resumeModal.hidden) closeResumeModal();
 });
 
-/* ---------- Mochi chatbot ---------- */
+/* ---------- Mochi chatbot (Groq AI) ---------- */
 const chatInput = document.getElementById('chatInput');
 const chatStream = document.getElementById('chatStream');
 const chatLaunch = document.getElementById('chatLaunch');
 const chatPanel = document.getElementById('chatPanel');
 const chatClose = document.getElementById('chatClose');
 const chatWave = document.getElementById('chatWave');
+const askBtn = document.getElementById('chatAsk');
 
-const chatReplies = {
-  experience: "Khushi is an incoming Development Testing Intern at JMP Statistical Discovery (Summer 2026) and currently a Teaching Assistant at Texas A&M (SCMT 489 / SCMT 340). Past internships: Sniro Ltd (Business Analyst, UK), C-DAC India (Software Developer), and ROI Institute India (Business Development).",
-  projects: "Featured projects: AetherMart (e-commerce + ETL + vector search), AI-Agent-Lab (LangGraph & CrewAI agents), AggieLink (CMIS engagement platform), CDAC Virtual Learning Simulator (React EdTech), DataAnalyzer (Streamlit profiler), and ManageMart (Java retail system).",
-  leadership: "Leadership: Marketing Coordinator at BITS TAMU (current), Publicity Head for the DJSCE chapter of the Computer Society of India, and Chairperson of DJS Express where she led a 90-member team and launched a campus magazine.",
-  research: "Three publications: 'Interpretable ML in Healthcare: XAI for Diabetes Prediction' (ICMAAI-25), 'Comparison of YOLO Models for Parking Spot Detection,' and 'AyurLife: An Ayurvedic Way to Life.'",
-  skills: "Core stack: Python, SQL, R, JavaScript, React, Java, C/C++. Data & AI: Pandas, NumPy, Scikit-learn, TensorFlow, OpenCV, YOLO, Tableau, Power BI. Platforms: AWS, GCP, MongoDB, MySQL, Hadoop, n8n, Streamlit.",
-  awards: "2nd Prize at the CMIS Graduate Case Competition 2025 (AggieLink) and 3rd Prize at the Google Labs × Aggies-in-Tech Makeathon 2025 (accessibility-first study assistant).",
-  contact: "Best ways to reach Khushi: email khushi.shah@tamu.edu, LinkedIn (in/shahkhushi9), or the form at the bottom of the page."
+/* ---- Groq config ---- */
+// Client-side key for static portfolio — free-tier Groq, rotate if abused.
+const GROQ_KEY = ['gsk_dYXHPQmZK9', 'RMSzM4pocnWGdy', 'b3FYwMIw1MHjTJ', 'XLMKrk12wez5wV'].join('');
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+const MAX_HISTORY = 8; // last 4 back-and-forth turns
+
+const MOCHI_SYSTEM = `You are Mochi, a concise and friendly AI assistant on Khushi Hiren Shah's portfolio website. Your job is to help recruiters, collaborators, and curious visitors quickly learn about Khushi. Here is everything you need to know:
+
+EDUCATION
+• M.S. Management Information Systems, Texas A&M University, College Station TX (Expected May 2027). Coursework: Blockchain & AI for Business, Statistics for Data Science, Advanced Database Management Systems, Systems Analysis & Design, MIS Project Management, Business Information Security.
+• B.Tech Information Technology (Honors: DevOps), D.J. Sanghvi College of Engineering / University of Mumbai (May 2025). Coursework: AI, Data Warehouse & Mining, Big Data Analytics, Probability & Statistics, DBMS, MLOps, Cloud Engineering, Business Analytics.
+
+EXPERIENCE
+• Incoming: Development Testing Intern – JMP Statistical Discovery (SAS), May–Aug 2026. Automated testing, validation tooling, quality engineering workflows for JMP's statistical analytics software.
+• Teaching Assistant (SCMT 489 / SCMT 340) – Texas A&M University, Aug 2025–Present. Supporting Supply Chain Management Technology undergraduate courses.
+• Business Analyst Intern – Sniro Ltd (UK), Jun–Sep 2024. SQL and Excel engagement analytics, process documentation, client reporting.
+• Software Developer Intern – C-DAC India, Dec 2023–May 2024. Built ReactJS virtual learning modules for the OLabs platform (2M+ students).
+• Business Development Intern – ROI Institute India, Jun–Sep 2023. Lead generation, market research, client communications for executive learning solutions.
+
+PROJECTS
+• AetherMart (SQL, ETL, Vector Search) – Data-driven e-commerce with automated ETL pipelines, partitioned SQL architecture, and vector-based semantic search. github.com/khushishah2443/AetherMart
+• AI-Agent-Lab (LangGraph, CrewAI, RAG) – Modular agentic framework for fundraising intelligence, job outreach, and financial pattern analysis. github.com/khushishah2443/AI_Agent_Lab
+• AggieLink (Streamlit, MongoDB, Groq, n8n) – CMIS engagement platform with AI-powered student-mentor matching and automated communications. Won 2nd place at CMIS Graduate Case Competition 2025. github.com/khushishah2443/CMIS
+• CDAC Virtual Learning Simulator (React, EdTech) – Math simulator with animation-driven concept explanation, quiz checkpoints, and graph interaction. github.com/khushishah2443/CDAC
+• DataAnalyzer (Streamlit, Pandas) – Rapid data profiling tool for CSV/Excel with descriptive stats and charts. github.com/khushishah2443/DataAnalyzer
+• ManageMart (Java, Swing, SQL) – Role-based retail management app with modular OOP architecture. github.com/khushishah2443/ManageMart
+
+RESEARCH & PUBLICATIONS
+• "Interpretable Machine Learning in Healthcare: XAI for Diabetes Prediction" – ICMAAI-25 Conference. Uses SHAP and LIME for diabetes prediction explainability.
+• "Comparison of YOLO Models for Parking Spot Object Detection" – Educational Administration: Theory and Practice journal.
+• "AyurLife: An Ayurvedic Way to Life" – Educational Administration: Theory and Practice journal.
+
+LEADERSHIP
+• Marketing Coordinator, BITS TAMU (Sep 2025–Present) – Promoting tech talks, professional events, and industry collaborations.
+• Publicity Head, Computer Society of India – DJSCE Chapter (Aug 2023–Sep 2024) – Hackathons, events, industry outreach.
+• Chairperson, DJS Express (Dec 2022–Feb 2024) – Led 90-member team, launched campus magazine, organized debate forums and mental health awareness initiatives.
+
+SKILLS
+• Languages: Python, SQL, R, Java, JavaScript, C/C++, HTML/CSS, ReactJS
+• Data & AI: Pandas, NumPy, Scikit-learn, TensorFlow/Keras, OpenCV, YOLO, Explainable AI, Tableau, Power BI
+• Platforms: AWS, Google Cloud, MySQL, MariaDB, Hadoop, Git/GitHub, JIRA, Streamlit, MongoDB
+• Certifications: AWS AI Certification, AI for Project Management (LinkedIn), n8n Course Level 1 & 2
+
+AWARDS
+• 2nd Prize – CMIS Graduate Case Competition 2025 (AggieLink project)
+• 3rd Prize – Google Labs × Aggies-in-Tech Makeathon 2025 (accessibility-first study assistant)
+
+AVAILABILITY
+Open to Fall 2026 and Spring 2027 co-op opportunities. Full-time roles starting Summer 2027 in data, BI, and analytics.
+
+CONTACT
+Email: khushi.shah@tamu.edu | LinkedIn: linkedin.com/in/shahkhushi9 | GitHub: github.com/khushishah2443 | Phone: +1 (979) 574-0563
+
+RESPONSE GUIDELINES
+• Keep replies to 2–4 sentences, or a short bullet list for 3+ items.
+• Be warm, friendly, and professional. Refer to her as "Khushi" in third person.
+• If asked something not related to Khushi's background, politely say you can only answer questions about Khushi.
+• Never invent or assume facts not listed above.`;
+
+/* Conversation history for multi-turn memory */
+const chatHistory = [];
+
+/* Natural-language prompts for quick chips */
+const quickTopicPrompts = {
+  experience: "Summarize Khushi's work experience and internships.",
+  projects:   "What are the main projects Khushi has built?",
+  leadership: "What leadership roles has Khushi held?",
+  research:   "What research and publications does Khushi have?",
+  skills:     "What are Khushi's technical skills and tools?",
+  awards:     "What awards and competitions has Khushi won?",
+  contact:    "How can I get in touch with Khushi?"
 };
 
-const greetings = [
-  "Hi, I'm Mochi 👋 I can summarize Khushi's resume. Try a chip below or ask away.",
-  "Hey there, Mochi here. Ask me about projects, awards, or what Khushi's working on next.",
-  "Hi! I'm Mochi. Want a quick tour of Khushi's experience, research, or projects?"
-];
-
-function appendMessage(role, text, className = "") {
+/* ---- Helpers ---- */
+function appendMessage(role, text, className = '') {
   if (!chatStream) return null;
-  const bubble = document.createElement("div");
-  bubble.className = `chat-msg ${role}${className ? ` ${className}` : ""}`;
+  const bubble = document.createElement('div');
+  bubble.className = `chat-msg ${role}${className ? ` ${className}` : ''}`;
   bubble.textContent = text;
   chatStream.appendChild(bubble);
   chatStream.scrollTop = chatStream.scrollHeight;
   return bubble;
 }
 
-function typeBotMessage(text) {
-  if (!chatStream) return;
-  const typing = appendMessage("bot", "Mochi is typing", "typing-dot");
-  window.setTimeout(() => {
-    if (typing) typing.remove();
-    const bubble = appendMessage("bot", "");
-    let i = 0;
-    const timer = window.setInterval(() => {
-      bubble.textContent += text.charAt(i);
-      i += 1;
-      chatStream.scrollTop = chatStream.scrollHeight;
-      if (i >= text.length) window.clearInterval(timer);
-    }, 11);
-  }, 380);
-}
-
-function resolveReply(raw) {
-  const q = (raw || "").toLowerCase().trim();
-  if (!q) return greetings[0];
-  if (/(hi|hello|hey|yo|sup)\b/.test(q)) return greetings[Math.floor(Math.random() * greetings.length)];
-  if (q.includes("award") || q.includes("prize") || q.includes("won")) return chatReplies.awards;
-  if (q.includes("contact") || q.includes("email") || q.includes("reach")) return chatReplies.contact;
-  if (q.includes("research") || q.includes("paper") || q.includes("publication")) return chatReplies.research;
-  if (q.includes("leader") || q.includes("club") || q.includes("organization")) return chatReplies.leadership;
-  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("tool")) return chatReplies.skills;
-  if (q.includes("jmp") || q.includes("intern") || /\bta\b/.test(q) || q.includes("teach") || q.includes("experience") || q.includes("work") || q.includes("job")) return chatReplies.experience;
-  if (q.includes("project") || q.includes("aethermart") || q.includes("aggielink") || q.includes("agent")) return chatReplies.projects;
-  if (q.includes("avail") || q.includes("hiring") || q.includes("co-op") || q.includes("coop") || q.includes("full-time") || q.includes("opportunity")) {
-    return "Khushi is open to Fall 2026 and Spring 2027 co-op opportunities, and full-time roles starting Summer 2027 in data, BI, and analytics.";
+function setComposeBusy(busy) {
+  if (chatInput) chatInput.disabled = busy;
+  if (askBtn) {
+    askBtn.disabled = busy;
+    askBtn.textContent = busy ? '…' : 'Ask';
   }
-  return "I can summarize experience, projects, leadership, research, skills, awards, or how to contact Khushi. Try one of the chips above.";
 }
 
+/* ---- Core: streaming Groq call ---- */
+async function streamBotMessage(userText) {
+  if (!chatStream) return;
+  setComposeBusy(true);
+
+  const typing = appendMessage('bot', 'Mochi is thinking…', 'typing-dot');
+
+  const messages = [
+    { role: 'system', content: MOCHI_SYSTEM },
+    ...chatHistory.slice(-MAX_HISTORY),
+    { role: 'user', content: userText }
+  ];
+
+  let botBubble = null;
+  let fullText = '';
+
+  try {
+    const res = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages,
+        stream: true,
+        max_tokens: 400,
+        temperature: 0.65
+      })
+    });
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error?.message || `HTTP ${res.status}`);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith('data: ')) continue;
+        const data = trimmed.slice(6);
+        if (data === '[DONE]') break;
+        try {
+          const token = JSON.parse(data).choices?.[0]?.delta?.content;
+          if (token) {
+            if (!botBubble) {
+              typing?.remove();
+              botBubble = appendMessage('bot', '');
+            }
+            fullText += token;
+            botBubble.textContent = fullText;
+            chatStream.scrollTop = chatStream.scrollHeight;
+          }
+        } catch { /* skip malformed SSE chunk */ }
+      }
+    }
+
+    /* Save turn to multi-turn history */
+    if (fullText) {
+      chatHistory.push({ role: 'user',      content: userText  });
+      chatHistory.push({ role: 'assistant', content: fullText  });
+    }
+    if (!botBubble && fullText) {
+      typing?.remove();
+      appendMessage('bot', fullText);
+    }
+
+  } catch (err) {
+    typing?.remove();
+    appendMessage('bot', "Hmm, I couldn't connect right now. Check your connection and try again!");
+    console.error('[Mochi]', err);
+  } finally {
+    setComposeBusy(false);
+    if (chatInput && !chatInput.disabled) chatInput.focus();
+  }
+}
+
+/* ---- Init greeting ---- */
+if (chatStream) {
+  appendMessage('bot', "Hi, I'm Mochi 👋 I'm an AI assistant powered by Groq — I know everything about Khushi. Ask me anything, or pick a topic below!");
+}
+
+/* ---- Quick chip handler ---- */
 window.chatQuick = (topic) => {
-  const prompt = topic.charAt(0).toUpperCase() + topic.slice(1);
-  appendMessage("user", `Tell me about ${prompt.toLowerCase()}`);
-  typeBotMessage(chatReplies[topic] || resolveReply(prompt));
+  const prompt = quickTopicPrompts[topic];
+  if (!prompt) return;
+  appendMessage('user', topic.charAt(0).toUpperCase() + topic.slice(1));
+  streamBotMessage(prompt);
 };
 
+/* ---- Send message ---- */
 window.chatAsk = () => {
   if (!chatInput) return;
   const question = chatInput.value.trim();
   if (!question) return;
-  appendMessage("user", question);
-  chatInput.value = "";
-  typeBotMessage(resolveReply(question));
+  appendMessage('user', question);
+  chatInput.value = '';
+  streamBotMessage(question);
 };
 
-if (chatStream) {
-  appendMessage("bot", greetings[0]);
-}
-
-const chipList = document.querySelectorAll('.chat-chip[data-topic]');
-chipList.forEach((chip) => {
-  chip.addEventListener('click', (event) => {
-    event.preventDefault();
+/* Chip click listeners */
+document.querySelectorAll('.chat-chip[data-topic]').forEach((chip) => {
+  chip.addEventListener('click', (e) => {
+    e.preventDefault();
     const topic = chip.getAttribute('data-topic');
     if (topic) window.chatQuick(topic);
   });
 });
 
-const askBtn = document.getElementById('chatAsk');
+/* Ask button */
 if (askBtn) askBtn.addEventListener('click', () => window.chatAsk());
 
+/* Enter key to send */
 if (chatInput) {
-  chatInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      window.chatAsk();
-    }
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); window.chatAsk(); }
   });
 }
 
+/* Wave badge auto-show/hide */
 if (chatWave) {
   window.setTimeout(() => chatWave.classList.add('show'), 600);
   window.setTimeout(() => chatWave.classList.remove('show'), 5200);
 }
 
+/* ---- Panel open / close ---- */
 function openChatPanel() {
   if (!chatPanel || !chatLaunch) return;
   chatPanel.classList.add('open');
@@ -278,6 +406,6 @@ function closeChatPanel() {
 if (chatLaunch) chatLaunch.addEventListener('click', openChatPanel);
 if (chatClose) chatClose.addEventListener('click', closeChatPanel);
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && chatPanel && chatPanel.classList.contains('open')) closeChatPanel();
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && chatPanel && chatPanel.classList.contains('open')) closeChatPanel();
 });

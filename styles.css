@@ -1239,6 +1239,18 @@ footer {
   transform: translateY(-1px);
 }
 
+.chat-compose input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.chat-compose button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
 /* ---------- Resume modal ---------- */
 .modal-backdrop {
   position: fixed;
